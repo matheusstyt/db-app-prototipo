@@ -1,18 +1,22 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <nova-receita></nova-receita>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import NovaReceita from "@/components/receita";
 
 export default {
   name: 'HomeView',
   components: {
-    HelloWorld
-  }
+    "nova-receita" : NovaReceita
+  },
+  data(){
+    return{
+
+    }
+  },
+  
 }
 </script>
