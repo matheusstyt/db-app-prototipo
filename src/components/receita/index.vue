@@ -63,24 +63,26 @@ export default {
 
             ingrediente_novo_nome : null,
             ingrediente_novo_porcentagem : null,
-            ingrediente_novo_unidade : null,
+            ingrediente_novo_unidade : "g",
         }
     },
     methods : {
         regra_tres(porcentagem_novo, peso_base){
         return (peso_base * porcentagem_novo) / 100;
         },
+        peso_real(){
+          return this.ingrediente_base_peso 
+            ? `${this.regra_tres(this.ingrediente_base_peso, this.ingrediente_novo_porcentagem)}${this.ingrediente_novo_unidade}` 
+            : `0${this.ingrediente_novo_unidade}`;
+        },
         adicionar_receita(e){
         const novo_ingrediente = {
             nome : this.ingrediente_novo_nome,
-            porcentagem : this.ingrediente_novo_porcentagem,
-            peso : this.ingrediente_base_peso 
-            ? `${this.regra_tres(this.ingrediente_base_peso, this.ingrediente_novo_porcentagem)}${this.ingrediente_novo_unidade}` 
-            : `0${this.ingrediente_novo_unidade}`
+            porcentagem : `${this.ingrediente_novo_porcentagem}%` ,
+            peso : this.peso_real()
         }
         this.list_ingredientes.push(novo_ingrediente);
         e.preventDefault();
-        
         },
         salvar_receita(){
             const receita = {
@@ -92,11 +94,13 @@ export default {
                 ingredientes : this.list_ingredientes
             }
             console.log(receita);
-        }
+        },
     },
     watch : {
         ingrediente_base_peso(value){
-        console.log(value)
+        this.list_ingredientes.forEach( ingrediente => {
+          ingrediente.peso = this.peso_real();
+        });
         },
 
     }
